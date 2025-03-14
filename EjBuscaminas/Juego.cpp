@@ -75,28 +75,26 @@ bool esta_completo(tJuego& j) {
 	return completo;
 }
 
-bool mina_explotada(tJuego& j) {
-	bool explotada = false;
+void mina_explotada(tJuego& j) {
 	int f = dame_num_filas(j);
 	int c = dame_num_columnas(j);
 	int i = 0, k;
 	tCelda celda;
-	while (!explotada && i < f) {
+	while (!j.mina_explotada && i < f) {
 		k = 0;
-		while (!explotada && k < c) {
+		while (!j.mina_explotada && k < c) {
 			celda = dame_celda(j.tablero, f, c);
 			// si alguna de las celdas tiene mina y es visible, esta explota
-			if (contiene_mina(j, i, k)) explotada = es_visible(j, i, k);
+			if (contiene_mina(j, i, k)) j.mina_explotada = es_visible(j, i, k);
 			k++;
 		}
 		i++;
 	}
-	return explotada;
 }
 
 bool esta_terminado(tJuego& j) {
 	// si se cumplen esta completo o mina explotada
-	return mina_explotada || esta_completo;
+	return j.mina_explotada || esta_completo;
 }
 
 void poner_mina(tJuego& j, int fila, int columna) {
@@ -114,23 +112,25 @@ void poner_mina(tJuego& j, int fila, int columna) {
 }
 
 void marcar_desmarcar(tJuego& j, int fila, int columna) {
-	tCelda c;
+
 	if (es_valida(j.tablero, fila, columna)) {
-		dame_celdaRef(j.tablero, c, fila, columna);
+		tCelda c = dame_celda(j.tablero, fila, columna);
 		if (esta_marcada(j, fila, columna)) {
 			desmarcar_celda(c);
 		}
 		else {
 			marcar_celda(c);
 		}
+		poner_celda(j.tablero, fila, columna, c);
 	}
 }
 
 void ocultar(tJuego& j, int fila, int columna) {
-	tCelda c;
+
 	if (es_valida(j.tablero, fila, columna)) {
-		dame_celdaRef(j.tablero, c, fila, columna);
+		tCelda c = dame_celda(j.tablero, fila, columna);
 		if (!es_visible(j, fila, columna)) ocultar_celda(c);
+		poner_celda(j.tablero, fila, columna, c);
 	}
 }
 
@@ -139,8 +139,6 @@ void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp) {
 	descubrirCelda(j, lp, fila, columna);
 
 	if (es_valida(j.tablero, fila, columna)) {
-		tCelda c;
-		dame_celdaRef(j.tablero, c, fila, columna);
 		//Si la celda está vacia, mostar sus vecinas
 		if (esta_vacia(j, fila, columna)) {
 			//actualizar posiciones adyacentes

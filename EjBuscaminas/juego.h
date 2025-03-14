@@ -28,7 +28,7 @@ bool esta_vacia(const tJuego& j, int fila, int columna);
 bool contiene_numero(const tJuego& j, int fila, int columna);
 int dame_numero(tJuego& j, int fila, int columna);
 bool esta_completo(tJuego& j);
-bool mina_explotada(tJuego& j);
+void mina_explotada(tJuego& j);
 bool esta_terminado(tJuego& j);
 void poner_mina(tJuego& j, int fila, int columna);
 void marcar_desmarcar(tJuego& j, int fila, int columna);
