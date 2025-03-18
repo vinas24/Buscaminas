@@ -30,10 +30,6 @@ tCelda dame_celda(const tTablero& t, int fila, int columna) {
 	return t.datos[fila][columna];
 }
 
-void dame_celdaRef(const tTablero& t, tCelda& c, int fila, int columna) {
-	c = t.datos[fila][columna];
-}
-
 bool es_valida(const tTablero& t, int fila, int columna) {
 	return (fila >= 0 && fila < t.nFils) && (columna >= 0 && columna < t.nCols);
 }

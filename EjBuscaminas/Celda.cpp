@@ -44,7 +44,7 @@ void ocultar_celda(tCelda& c) {
 }
 
 void poner_mina(tCelda& c) {
-	c.estado == MINA;
+	c.estado = MINA;
 }
 
 void marcar_celda(tCelda& c) {

@@ -1,5 +1,6 @@
 #pragma once
 #include "juego.h"
+#include "inputOutput_pintar.h"
 
 using std::istream;
 

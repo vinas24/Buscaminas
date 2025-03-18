@@ -31,6 +31,9 @@ int dame_num_columnas(const tJuego& j) {
 int dame_num_minas(const tJuego& j) {
 	return j.num_minas;
 }
+int dame_num_descubiertas(const tJuego& j) {
+	return j.num_descubiertas;
+}
 
 bool contiene_mina(const tJuego& j, int fila, int columna) {
 	return es_mina(dame_celda(j.tablero, fila, columna));
@@ -58,43 +61,16 @@ int dame_numero(tJuego& j, int fila, int columna) {
 
 bool esta_completo(tJuego& j) {
 	//devuelve true si todas las celdas no mina están visibles
-	bool completo = true;
-	int f = dame_num_filas(j);
-	int c = dame_num_columnas(j);
-	int i = 0, k;
-
-	while (completo && i < f) {
-		k = 0;
-		while (completo && k < c) {
-			// a la que una celda no sea visible, saldrá del bucle
-			if (!contiene_mina(j,i,k)) completo = es_visible(j,i,k);
-			k++;
-		}
-		i++;
-	}
-	return completo;
+	return ((dame_num_columnas(j) * dame_num_filas(j) - dame_num_minas(j)) == dame_num_descubiertas(j));
 }
 
-void mina_explotada(tJuego& j) {
-	int f = dame_num_filas(j);
-	int c = dame_num_columnas(j);
-	int i = 0, k;
-	tCelda celda;
-	while (!j.mina_explotada && i < f) {
-		k = 0;
-		while (!j.mina_explotada && k < c) {
-			celda = dame_celda(j.tablero, f, c);
-			// si alguna de las celdas tiene mina y es visible, esta explota
-			if (contiene_mina(j, i, k)) j.mina_explotada = es_visible(j, i, k);
-			k++;
-		}
-		i++;
-	}
+bool mina_explotada(tJuego& j) {
+	return j.mina_explotada;
 }
 
 bool esta_terminado(tJuego& j) {
 	// si se cumplen esta completo o mina explotada
-	return j.mina_explotada || esta_completo;
+	return mina_explotada(j) || esta_completo(j);
 }
 
 void poner_mina(tJuego& j, int fila, int columna) {
@@ -103,6 +79,7 @@ void poner_mina(tJuego& j, int fila, int columna) {
 		//Ponemos la mina
 		tCelda c = dame_celda(j.tablero, fila, columna);
 		poner_mina(c);
+		j.num_minas++;
 		poner_celda(j.tablero, fila, columna, c);
 		//actualizar posiciones adyacentes
 		for (int k = 0; k < NUM_DIRECCIONES; k++) {
@@ -137,7 +114,6 @@ void ocultar(tJuego& j, int fila, int columna) {
 void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp) {
 
 	descubrirCelda(j, lp, fila, columna);
-
 	if (es_valida(j.tablero, fila, columna)) {
 		//Si la celda está vacia, mostar sus vecinas
 		if (esta_vacia(j, fila, columna)) {
@@ -146,19 +122,23 @@ void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp) {
 				descubrirCelda(j, lp, fila + DIRECCIONES[k][0], columna + DIRECCIONES[k][1]);
 			}
 		}
+		j.num_jugadas++;
 	}
+	
 }
 
 void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col) {
 	//comprueba valida, no visible y no marcada
-	if (es_valida(j.tablero, fil, col)) {
-		if (!es_visible(j, fil, col) && !esta_marcada(j, fil,col)) {
+	if (es_valida(j.tablero, fil, col) && !esta_marcada(j, fil, col)) {
+		if (!es_visible(j, fil, col) ) {
 			//la pone visible y actualiza lista pos
 			tCelda c = dame_celda(j.tablero, fil, col);
 			descubrir_celda(c);
 			poner_celda(j.tablero, fil, col, c);
 			//Añadimos a la lista de posiciones
 			insertar_final(lp, col, fil);
+			j.num_descubiertas++;
+			if (es_mina(c)) j.mina_explotada = true;
 		}
 	}
 }

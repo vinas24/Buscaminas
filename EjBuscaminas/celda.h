@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <fstream>
-typedef enum { NUMERO, VACIA, MINA } tEstado;
+typedef enum { NUMERO, VACIA, MINA} tEstado;
 
 typedef struct {
 	bool visible;
