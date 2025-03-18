@@ -2,69 +2,60 @@
 #include <iostream>
 #include <iomanip>
 
-using std::cout;
-using std::endl;
-using std::setw;
-using std::setfill;
-
 const char CHAR_MINA = '*';     // Mina
-
-
 
 void colorNumero(int numero) {
     switch (numero)
     {
-    case 1: cout << BLUE; break;
-    case 2: cout << GREEN; break;
-    case 3: cout << RED; break;
-    case 4: cout << DBLUE; break;
-    case 5: cout << DGREEN; break;
-    case 6: cout << DRED; break;
+    case 1: std::cout << BLUE; break;
+    case 2: std::cout << GREEN; break;
+    case 3: std::cout << RED; break;
+    case 4: std::cout << DBLUE; break;
+    case 5: std::cout << DGREEN; break;
+    case 6: std::cout << DRED; break;
     default:
         break;
     }
 }
 
-
 void mostrarCoutSeparadorMat(int huecoCelda, const tJuego& j) {
-    cout << "\t -+";
+    std::cout << "\t -+";
     for (int col = 0; col < dame_num_columnas(j); ++col) {
-        cout << setw(huecoCelda + 1) << setfill('-') << '+' << setfill(' ');
+        std::cout << std::setw(huecoCelda + 1) << std::setfill('-') << '+' << std::setfill(' ');
     }
-    cout << endl;
+    std::cout << std::endl;
 }
-
 
 void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos) {
 	tCelda c = dame_celda(t, fila, columna);
 
     if (!es_visible(c) && !esta_marcada(c)) {
-        cout << BG_GRAY << GRAY << setw(huecos) << setfill(' ') << ' ' << RESET;
+        std::cout << BG_GRAY << GRAY << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
     }
     else {
-        cout << BG_BLACK << BLACK;
+        std::cout << BG_BLACK << BLACK;
         if (!esta_marcada(c)) {
             if (dame_estado(c) == MINA) {
-                cout << RED << setw(huecos) << setfill(' ') << CHAR_MINA << RESET;
+                std::cout << RED << std::setw(huecos) << std::setfill(' ') << CHAR_MINA << RESET;
             }
             else {
                 if (dame_estado(c) == VACIA) {
-                    cout << setw(huecos) << setfill(' ') << ' ' << RESET;
+                    std::cout << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
                 }
                 else {
                     if (dame_estado(c) == NUMERO) {
                         int numero = dame_numero(c);
                         colorNumero(numero);
-                        cout << setw(huecos) << setfill(' ') << numero << RESET;
+                        std::cout << std::setw(huecos) << std::setfill(' ') << numero << RESET;
                     }
                     else {
-                        cout << BG_RED << RED << setw(huecos) << setfill(' ') << ' ' << RESET;
+                        std::cout << BG_RED << RED << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
                     }
                 }
             }
         }
         else {
-            cout << BG_ORANGE << ORANGE << setw(huecos) << setfill(' ') << ' ' << RESET;
+            std::cout << BG_ORANGE << ORANGE << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
         }
     }
 }
@@ -73,12 +64,12 @@ void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos) {
 istream& operator>>(istream& in, tJuego& juego);
 
 void mostrar_cabecera() {
-	cout << "Buscaminas" << endl;
-	cout << "----------" << endl;
+	std::cout << "Buscaminas" << std::endl;
+	std::cout << "----------" << std::endl;
 }
 
 void pedir_pos(int& fila, int& columna) {
-	cout << "Introduce la fila y la columna: ";
+	std::cout << "Introduce la fila y la columna: ";
 	std::cin >> fila >> columna;
 }
 
@@ -103,13 +94,13 @@ bool carga_juego(tJuego& j) {
 
 void mostrar_juego_consola(const tJuego& j) {
     mostrar_cabecera();
-    cout << "Jugadas: " << dame_num_jugadas(j) << endl;
-    cout << "Minas: " << dame_num_minas(j) << endl;
-    cout << "\t  |";
+    std::cout << "Jugadas: " << dame_num_jugadas(j) << std::endl;
+    std::cout << "Minas: " << dame_num_minas(j) << std::endl;
+    std::cout << "\t  |";
     for (int col = 0; col < dame_num_columnas(j); col++) {
-        cout << LBLUE << setw(N_HUECOS) << col << RESET << '|';
+        std::cout << LBLUE << std::setw(N_HUECOS) << col << RESET << '|';
     }
-    cout << endl;
+    std::cout << std::endl;
 
     // mostrar separador
     mostrarCoutSeparadorMat(N_HUECOS, j);
@@ -117,15 +108,15 @@ void mostrar_juego_consola(const tJuego& j) {
     // mostrar tablero
     for (int f = 0; f < dame_num_filas(j); f++) {
         // mostrar numero de fila
-        cout << "\t" << LBLUE << setw(2) << f << RESET << '|';
+        std::cout << "\t" << LBLUE << std::setw(2) << f << RESET << '|';
         // mostrar la fila
         for (int c = 0; c < dame_num_columnas(j); c++) {
             mostrarCeldaConsola(j.tablero, f, c, N_HUECOS);
-            cout << '|';
+            std::cout << '|';
         }
-        cout << endl;
+        std::cout << std::endl;
 
         mostrarCoutSeparadorMat(N_HUECOS, j);
     }
-    cout << endl;
+    std::cout << std::endl;
 }
