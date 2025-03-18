@@ -22,7 +22,6 @@
     <ClInclude Include="celda.h" />
     <ClInclude Include="colors.h" />
     <ClInclude Include="inputOutput.h" />
-    <ClInclude Include="inputOutput_pintar.h" />
     <ClInclude Include="juego.h" />
     <ClInclude Include="listaPosiciones.h" />
     <ClInclude Include="listaUndo.h" />
@@ -31,7 +30,6 @@
   <ItemGroup>
     <ClCompile Include="Celda.cpp" />
     <ClCompile Include="InputOutput.cpp" />
-    <ClCompile Include="InputOutput_pintar.cpp" />
     <ClCompile Include="Juego.cpp" />
     <ClCompile Include="ListaPosiciones.cpp" />
     <ClCompile Include="ListaUndo.cpp" />

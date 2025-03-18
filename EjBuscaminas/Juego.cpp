@@ -7,6 +7,7 @@ void inicializar(tJuego& j) {
 
 	inicializar(j.tablero);
 	j.num_descubiertas = 0;
+	j.num_jugadas = 0;
 	j.num_minas = 0;
 	j.num_descubiertas = 0;
 	j.mina_explotada = false;
@@ -122,7 +123,7 @@ void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp) {
 				descubrirCelda(j, lp, fila + DIRECCIONES[k][0], columna + DIRECCIONES[k][1]);
 			}
 		}
-		j.num_jugadas++;
+		
 	}
 	
 }
@@ -139,6 +140,7 @@ void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col) {
 			insertar_final(lp, col, fil);
 			j.num_descubiertas++;
 			if (es_mina(c)) j.mina_explotada = true;
+			j.num_jugadas++;
 		}
 	}
 }
