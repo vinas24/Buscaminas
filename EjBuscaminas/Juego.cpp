@@ -1,14 +1,16 @@
 #include "juego.h"
+#include <cstdlib> // For rand() and srand()
+#include <ctime>   // For time()
+
 
 void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col);
 void aumentarNum(tJuego& j, int fil, int col);
+void asignarMinas(tJuego& j);
 
 void inicializar(tJuego& j) {
-
-	inicializar(j.tablero);
+	inicializar(j.tablero);	
 	j.num_descubiertas = 0;
 	j.num_jugadas = 0;
-	j.num_minas = 0;
 	j.num_descubiertas = 0;
 	j.mina_explotada = false;
 }
@@ -16,6 +18,8 @@ void inicializar(tJuego& j) {
 void inicializar(tJuego& j, int nfils, int ncols) {
 	inicializar(j);
 	inicializar_tablero(j.tablero, nfils, ncols);
+	//Probando la asignación de minas
+	asignarMinas(j);
 }
 
 int dame_num_jugadas(const tJuego& j) {
@@ -80,7 +84,6 @@ void poner_mina(tJuego& j, int fila, int columna) {
 		//Ponemos la mina
 		tCelda c = dame_celda(j.tablero, fila, columna);
 		poner_mina(c);
-		j.num_minas++;
 		poner_celda(j.tablero, fila, columna, c);
 		//actualizar posiciones adyacentes
 		for (int k = 0; k < NUM_DIRECCIONES; k++) {
@@ -100,6 +103,7 @@ void marcar_desmarcar(tJuego& j, int fila, int columna) {
 			marcar_celda(c);
 		}
 		poner_celda(j.tablero, fila, columna, c);
+		j.num_jugadas++;
 	}
 }
 
@@ -107,14 +111,16 @@ void ocultar(tJuego& j, int fila, int columna) {
 
 	if (es_valida(j.tablero, fila, columna)) {
 		tCelda c = dame_celda(j.tablero, fila, columna);
-		if (!es_visible(j, fila, columna)) ocultar_celda(c);
+		if (es_visible(j, fila, columna)) ocultar_celda(c);
 		poner_celda(j.tablero, fila, columna, c);
+		j.num_descubiertas--;
 	}
 }
 
 void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp) {
 
 	descubrirCelda(j, lp, fila, columna);
+	j.num_jugadas++;
 	if (es_valida(j.tablero, fila, columna)) {
 		//Si la celda está vacia, mostar sus vecinas
 		if (esta_vacia(j, fila, columna)) {
@@ -140,7 +146,6 @@ void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col) {
 			insertar_final(lp, col, fil);
 			j.num_descubiertas++;
 			if (es_mina(c)) j.mina_explotada = true;
-			j.num_jugadas++;
 		}
 	}
 }
@@ -153,4 +158,25 @@ void aumentarNum(tJuego& j, int fil, int col) {
 		poner_numero(c, dame_numero(c)+1);
 		poner_celda(j.tablero, fil, col, c);
 	}
+}
+
+void asignarMinas(tJuego& j) {
+	int nMinas = 0;
+
+	//Esto es para que rand() si sea random y no se repita
+	srand(static_cast<unsigned int>(time(0))); 
+	//
+	
+	//Repetiremos esto para tantas minas como tengamos especificado en el juego
+	while (nMinas < j.num_minas) {
+		//Escogemos una casilla (fila,col) al azar
+		int filaRandom = rand() % dame_num_filas(j);
+		int columnaRandom = rand() % dame_num_columnas(j);
+		//Si no contiene ya una mina, la ponemos.
+		if (!contiene_mina(j, filaRandom, columnaRandom)) {
+			poner_mina(j, filaRandom, columnaRandom);
+			nMinas++;
+		}
+	}
+
 }

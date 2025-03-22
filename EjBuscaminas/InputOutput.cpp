@@ -4,64 +4,18 @@
 
 const char CHAR_MINA = '*';     // Mina
 
-void colorNumero(int numero) {
-    switch (numero)
-    {
-    case 1: std::cout << BLUE; break;
-    case 2: std::cout << GREEN; break;
-    case 3: std::cout << RED; break;
-    case 4: std::cout << DBLUE; break;
-    case 5: std::cout << DGREEN; break;
-    case 6: std::cout << DRED; break;
-    default:
-        break;
-    }
+void colorNumero(int numero);
+void mostrarCoutSeparadorMat(int huecoCelda, const tJuego& j);
+void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos);
+
+
+
+istream& operator>>(istream& in, tJuego& juego) {
+	int fil, col;
+    in >> fil >> col >> juego.num_minas;
+	inicializar(juego, fil, col);
+    return in;
 }
-
-void mostrarCoutSeparadorMat(int huecoCelda, const tJuego& j) {
-    std::cout << "\t -+";
-    for (int col = 0; col < dame_num_columnas(j); ++col) {
-        std::cout << std::setw(huecoCelda + 1) << std::setfill('-') << '+' << std::setfill(' ');
-    }
-    std::cout << std::endl;
-}
-
-void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos) {
-	tCelda c = dame_celda(t, fila, columna);
-
-    if (!es_visible(c) && !esta_marcada(c)) {
-        std::cout << BG_GRAY << GRAY << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
-    }
-    else {
-        std::cout << BG_BLACK << BLACK;
-        if (!esta_marcada(c)) {
-            if (dame_estado(c) == MINA) {
-                std::cout << RED << std::setw(huecos) << std::setfill(' ') << CHAR_MINA << RESET;
-            }
-            else {
-                if (dame_estado(c) == VACIA) {
-                    std::cout << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
-                }
-                else {
-                    if (dame_estado(c) == NUMERO) {
-                        int numero = dame_numero(c);
-                        colorNumero(numero);
-                        std::cout << std::setw(huecos) << std::setfill(' ') << numero << RESET;
-                    }
-                    else {
-                        std::cout << BG_RED << RED << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
-                    }
-                }
-            }
-        }
-        else {
-            std::cout << BG_ORANGE << ORANGE << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
-        }
-    }
-}
-
-
-istream& operator>>(istream& in, tJuego& juego);
 
 void mostrar_cabecera() {
 	std::cout << "Buscaminas" << std::endl;
@@ -88,8 +42,16 @@ void mostrar_resultado(tJuego& j) {
 }
 
 bool carga_juego(tJuego& j) {
-	//lectura de archivo y tal
-	return false;
+	bool cargado = false;
+	std::ifstream archivo;
+	archivo.open("buscaminas.txt");
+	if (archivo.is_open()) {
+
+		archivo >> j;
+		archivo.close();
+        cargado = true;
+	}
+	return cargado;
 }
 
 void mostrar_juego_consola(const tJuego& j) {
@@ -119,4 +81,59 @@ void mostrar_juego_consola(const tJuego& j) {
         mostrarCoutSeparadorMat(N_HUECOS, j);
     }
     std::cout << std::endl;
+}
+
+void colorNumero(int numero) {
+    switch (numero)
+    {
+    case 1: std::cout << BLUE; break;
+    case 2: std::cout << GREEN; break;
+    case 3: std::cout << RED; break;
+    case 4: std::cout << DBLUE; break;
+    case 5: std::cout << DGREEN; break;
+    case 6: std::cout << DRED; break;
+    default:
+        break;
+    }
+}
+
+void mostrarCoutSeparadorMat(int huecoCelda, const tJuego& j) {
+    std::cout << "\t -+";
+    for (int col = 0; col < dame_num_columnas(j); ++col) {
+        std::cout << std::setw(huecoCelda + 1) << std::setfill('-') << '+' << std::setfill(' ');
+    }
+    std::cout << std::endl;
+}
+
+void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos) {
+    tCelda c = dame_celda(t, fila, columna);
+    if (!es_visible(c) && !esta_marcada(c)) {
+        std::cout << BG_GRAY << GRAY << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
+    }
+    else {
+        std::cout << BG_BLACK << BLACK;
+        if (!esta_marcada(c)) {
+            if (dame_estado(c) == MINA) {
+                std::cout << RED << std::setw(huecos) << std::setfill(' ') << CHAR_MINA << RESET;
+            }
+            else {
+                if (dame_estado(c) == VACIA) {
+                    std::cout << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
+                }
+                else {
+                    if (dame_estado(c) == NUMERO) {
+                        int numero = dame_numero(c);
+                        colorNumero(numero);
+                        std::cout << std::setw(huecos) << std::setfill(' ') << numero << RESET;
+                    }
+                    else {
+                        std::cout << BG_RED << RED << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
+                    }
+                }
+            }
+        }
+        else {
+            std::cout << BG_ORANGE << ORANGE << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
+        }
+    }
 }

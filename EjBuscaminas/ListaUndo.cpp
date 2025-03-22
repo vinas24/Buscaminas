@@ -4,10 +4,11 @@ void inicializar(tListaUndo& lu) {
 	lu.cont = 0;
 }
 
-void insertar_final(tListaUndo& lu, tListaPosiciones& lp) {
-
+void insertar_final(tListaUndo& lu, const tListaPosiciones& lp) {
+	lu.lista[lu.cont] = lp;
+	lu.cont++;
 }
 
-tPosicion ultimos_movimientos(const tListaUndo& lu) {
-	return lu.lista->lista[lu.cont - 1];
+tListaPosiciones ultimos_movimientos(const tListaUndo& lu) {
+	return lu.lista[lu.cont - 1];
 }
