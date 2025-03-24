@@ -1,6 +1,6 @@
 #include "juego.h"
-#include <cstdlib> // For rand() and srand()
-#include <ctime>   // For time()
+//#include <cstdlib> // For rand() and srand()
+//#include <ctime>   // For time()
 
 
 void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col);
@@ -18,8 +18,6 @@ void inicializar(tJuego& j) {
 void inicializar(tJuego& j, int nfils, int ncols) {
 	inicializar(j);
 	inicializar_tablero(j.tablero, nfils, ncols);
-	//Probando la asignación de minas
-	asignarMinas(j);
 }
 
 int dame_num_jugadas(const tJuego& j) {
@@ -85,6 +83,7 @@ void poner_mina(tJuego& j, int fila, int columna) {
 		tCelda c = dame_celda(j.tablero, fila, columna);
 		poner_mina(c);
 		poner_celda(j.tablero, fila, columna, c);
+		j.num_minas++;
 		//actualizar posiciones adyacentes
 		for (int k = 0; k < NUM_DIRECCIONES; k++) {
 			 aumentarNum(j, fila + DIRECCIONES[k][0], columna + DIRECCIONES[k][1]);
@@ -160,23 +159,25 @@ void aumentarNum(tJuego& j, int fil, int col) {
 	}
 }
 
-void asignarMinas(tJuego& j) {
-	int nMinas = 0;
 
-	//Esto es para que rand() si sea random y no se repita
-	srand(static_cast<unsigned int>(time(0))); 
-	//
-	
-	//Repetiremos esto para tantas minas como tengamos especificado en el juego
-	while (nMinas < j.num_minas) {
-		//Escogemos una casilla (fila,col) al azar
-		int filaRandom = rand() % dame_num_filas(j);
-		int columnaRandom = rand() % dame_num_columnas(j);
-		//Si no contiene ya una mina, la ponemos.
-		if (!contiene_mina(j, filaRandom, columnaRandom)) {
-			poner_mina(j, filaRandom, columnaRandom);
-			nMinas++;
-		}
-	}
-
-}
+//Vestigios de cuando me apeteció hacer la asignación al azar
+//void asignarMinas(tJuego& j) {
+//	int nMinas = 0;
+//
+//	//Esto es para que rand() si sea random y no se repita
+//	srand(static_cast<unsigned int>(time(0))); 
+//	//
+//	
+//	//Repetiremos esto para tantas minas como tengamos especificado en el juego
+//	while (nMinas < j.num_minas) {
+//		//Escogemos una casilla (fila,col) al azar
+//		int filaRandom = rand() % dame_num_filas(j);
+//		int columnaRandom = rand() % dame_num_columnas(j);
+//		//Si no contiene ya una mina, la ponemos.
+//		if (!contiene_mina(j, filaRandom, columnaRandom)) {
+//			poner_mina(j, filaRandom, columnaRandom);
+//			nMinas++;
+//		}
+//	}
+//
+//}

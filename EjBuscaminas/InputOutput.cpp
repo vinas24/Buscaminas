@@ -11,9 +11,13 @@ void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos);
 
 
 istream& operator>>(istream& in, tJuego& juego) {
-	int fil, col;
-    in >> fil >> col >> juego.num_minas;
+	int fil, col, minas;
+    in >> fil >> col >> minas;
 	inicializar(juego, fil, col);
+    for (int i = 0; i < minas; i++) {
+        in >> fil >> col;
+        poner_mina(juego, fil, col);
+    }
     return in;
 }
 

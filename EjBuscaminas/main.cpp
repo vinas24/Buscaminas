@@ -31,7 +31,6 @@ int main() {
 			else if (fila == -3 && columna == -3) {
 				if (lu.cont == 0) {
 					std::cout << "No se pueden hacer más undos\n";
-
 				}
 				else {
 					//LOS MARCAR NO FUNCIONAN 
@@ -50,7 +49,6 @@ int main() {
 
 				//
 				//AHORA GUARDAMOS PARA EL SIGUENTE UNDO
-				// 
 				//guardamos las jugadas en lu
 				if(longitud(lp) != 0) insertar_final(lu, lp);
 				//reseteamos la lista de posiciones
@@ -61,6 +59,7 @@ int main() {
 		} while (!abandonar && !esta_terminado(j));
 
 		mostrar_resultado(j);
+		mostrar_juego_consola(j);
 	}
 	return 0;
 }
