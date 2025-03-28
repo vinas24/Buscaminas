@@ -1,11 +1,7 @@
 #include "juego.h"
-//#include <cstdlib> // For rand() and srand()
-//#include <ctime>   // For time()
-
 
 void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col);
 void aumentarNum(tJuego& j, int fil, int col);
-void asignarMinas(tJuego& j);
 
 void inicializar(tJuego& j) {
 	inicializar(j.tablero);	
@@ -92,7 +88,6 @@ void poner_mina(tJuego& j, int fila, int columna) {
 }
 
 void marcar_desmarcar(tJuego& j, int fila, int columna) {
-
 	if (es_valida(j.tablero, fila, columna)) {
 		tCelda c = dame_celda(j.tablero, fila, columna);
 		if (esta_marcada(j, fila, columna)) {
@@ -107,7 +102,6 @@ void marcar_desmarcar(tJuego& j, int fila, int columna) {
 }
 
 void ocultar(tJuego& j, int fila, int columna) {
-
 	if (es_valida(j.tablero, fila, columna)) {
 		tCelda c = dame_celda(j.tablero, fila, columna);
 		if (es_visible(j, fila, columna)) ocultar_celda(c);
@@ -117,7 +111,6 @@ void ocultar(tJuego& j, int fila, int columna) {
 }
 
 void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp) {
-
 	descubrirCelda(j, lp, fila, columna);
 	j.num_jugadas++;
 	if (es_valida(j.tablero, fila, columna)) {
@@ -135,8 +128,7 @@ void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp) {
 
 void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col) {
 	//comprueba valida, no visible y no marcada
-	if (es_valida(j.tablero, fil, col) && !esta_marcada(j, fil, col)) {
-		if (!es_visible(j, fil, col) ) {
+	if (es_valida(j.tablero, fil, col) && !esta_marcada(j, fil, col) && !es_visible(j, fil, col)) {
 			//la pone visible y actualiza lista pos
 			tCelda c = dame_celda(j.tablero, fil, col);
 			descubrir_celda(c);
@@ -144,8 +136,8 @@ void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col) {
 			//Añadimos a la lista de posiciones
 			insertar_final(lp, col, fil);
 			j.num_descubiertas++;
+			//Si hemos descubierto una mina, el flag de mina_explotada a true
 			if (es_mina(c)) j.mina_explotada = true;
-		}
 	}
 }
 
@@ -160,24 +152,3 @@ void aumentarNum(tJuego& j, int fil, int col) {
 }
 
 
-//Vestigios de cuando me apeteció hacer la asignación al azar
-//void asignarMinas(tJuego& j) {
-//	int nMinas = 0;
-//
-//	//Esto es para que rand() si sea random y no se repita
-//	srand(static_cast<unsigned int>(time(0))); 
-//	//
-//	
-//	//Repetiremos esto para tantas minas como tengamos especificado en el juego
-//	while (nMinas < j.num_minas) {
-//		//Escogemos una casilla (fila,col) al azar
-//		int filaRandom = rand() % dame_num_filas(j);
-//		int columnaRandom = rand() % dame_num_columnas(j);
-//		//Si no contiene ya una mina, la ponemos.
-//		if (!contiene_mina(j, filaRandom, columnaRandom)) {
-//			poner_mina(j, filaRandom, columnaRandom);
-//			nMinas++;
-//		}
-//	}
-//
-//}

@@ -31,9 +31,11 @@ void pedir_pos(int& fila, int& columna) {
 
 void mostrar_resultado(tJuego& j) {
 	if (esta_terminado(j)) {
+        //si alguna mina esta descubierta
 		if (mina_explotada(j)) {
 			std::cout << "Has explotado\n";
 		}
+        //si todas las casillas no minas están descubiertas
 		else if (esta_completo(j)) {
 			std::cout << "Has ganado\n";
 		}
@@ -43,16 +45,19 @@ void mostrar_resultado(tJuego& j) {
 	}
 }
 
+//Esta función hereda de inputOutputPintar
+//hemos modificado las referencias a "tMatriz" por las de "tTablero"
+//y modificado su contenido para que se pueda usar en nuestro programa
 bool carga_juego(tJuego& j) {
 	bool cargado = false;
 	std::ifstream archivo;
     std::string fichero;
-
+	//Pedir el nombre del fichero
 	std::cout << "Introduce el nombre del fichero: ";
 	std::cin >> fichero;
 	archivo.open(fichero);
 	if (archivo.is_open()) {
-
+		//Usamos el operador >> para cargar el juego
 		archivo >> j;
 		archivo.close();
         cargado = true;
@@ -63,6 +68,7 @@ bool carga_juego(tJuego& j) {
 void mostrar_juego_consola(const tJuego& j) {
 	if (!esta_terminado(j)) {
         mostrar_cabecera();
+        //Hemos añadido esta información a la cabecera
         std::cout << "Jugadas: " << dame_num_jugadas(j) << std::endl;
         std::cout << "Minas: " << dame_num_minas(j) << std::endl;
         
