@@ -5,7 +5,7 @@
 const int NUM_DIRECCIONES = 8;
 const int VECTOR_DIRECCION = 2;
 const int DIRECCIONES[NUM_DIRECCIONES][VECTOR_DIRECCION] =
-{ -1,0,  -1,-1,  0,1,  1,1,  1,0,  1,-1,  0,-1,  -1,1 };
+{ -1, 0, -1, -1, 0, 1, 1, 1, 1, 0, 1, -1, 0, -1, -1, 1};
 
 typedef struct {
 	tTablero tablero;
@@ -26,10 +26,10 @@ bool es_visible(const tJuego& j, int fila, int columna);
 bool esta_marcada(const tJuego& j, int fila, int columna);
 bool esta_vacia(const tJuego& j, int fila, int columna);
 bool contiene_numero(const tJuego& j, int fila, int columna);
-int dame_numero(tJuego& j, int fila, int columna);
-bool esta_completo(tJuego& j);
-bool mina_explotada(tJuego& j);
-bool esta_terminado(tJuego& j);
+int dame_numero(const tJuego& j, int fila, int columna);
+bool esta_completo(const tJuego& j);
+bool mina_explotada(const tJuego& j);
+bool esta_terminado(const tJuego& j);
 void poner_mina(tJuego& j, int fila, int columna);
 void marcar_desmarcar(tJuego& j, int fila, int columna);
 void ocultar(tJuego& j, int fila, int columna);

@@ -9,8 +9,8 @@ void asignarMinas(tJuego& j);
 
 void inicializar(tJuego& j) {
 	inicializar(j.tablero);	
-	j.num_descubiertas = 0;
 	j.num_jugadas = 0;
+	j.num_minas = 0;
 	j.num_descubiertas = 0;
 	j.mina_explotada = false;
 }
@@ -58,20 +58,20 @@ bool contiene_numero(tJuego& j, int fila, int columna) {
 	return contiene_numero(dame_celda(j.tablero, fila, columna));
 }
 
-int dame_numero(tJuego& j, int fila, int columna) {
+int dame_numero(const tJuego& j, int fila, int columna) {
 	return dame_celda(j.tablero, fila, columna).numero;
 }
 
-bool esta_completo(tJuego& j) {
+bool esta_completo(const tJuego& j) {
 	//devuelve true si todas las celdas no mina están visibles
 	return ((dame_num_columnas(j) * dame_num_filas(j) - dame_num_minas(j)) == dame_num_descubiertas(j));
 }
 
-bool mina_explotada(tJuego& j) {
+bool mina_explotada(const tJuego& j) {
 	return j.mina_explotada;
 }
 
-bool esta_terminado(tJuego& j) {
+bool esta_terminado(const tJuego& j) {
 	// si se cumplen esta completo o mina explotada
 	return mina_explotada(j) || esta_completo(j);
 }

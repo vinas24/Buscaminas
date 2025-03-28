@@ -8,8 +8,6 @@ void colorNumero(int numero);
 void mostrarCoutSeparadorMat(int huecoCelda, const tJuego& j);
 void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos);
 
-
-
 istream& operator>>(istream& in, tJuego& juego) {
 	int fil, col, minas;
     in >> fil >> col >> minas;
@@ -48,7 +46,11 @@ void mostrar_resultado(tJuego& j) {
 bool carga_juego(tJuego& j) {
 	bool cargado = false;
 	std::ifstream archivo;
-	archivo.open("buscaminas.txt");
+    std::string fichero;
+
+	std::cout << "Introduce el nombre del fichero: ";
+	std::cin >> fichero;
+	archivo.open(fichero);
 	if (archivo.is_open()) {
 
 		archivo >> j;
@@ -59,9 +61,12 @@ bool carga_juego(tJuego& j) {
 }
 
 void mostrar_juego_consola(const tJuego& j) {
-    mostrar_cabecera();
-    std::cout << "Jugadas: " << dame_num_jugadas(j) << std::endl;
-    std::cout << "Minas: " << dame_num_minas(j) << std::endl;
+	if (!esta_terminado(j)) {
+        mostrar_cabecera();
+        std::cout << "Jugadas: " << dame_num_jugadas(j) << std::endl;
+        std::cout << "Minas: " << dame_num_minas(j) << std::endl;
+        
+	}
     std::cout << "\t  |";
     for (int col = 0; col < dame_num_columnas(j); col++) {
         std::cout << LBLUE << std::setw(N_HUECOS) << col << RESET << '|';
