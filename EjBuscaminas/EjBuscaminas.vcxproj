@@ -38,6 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="buscaminas.txt" />
+    <Text Include="test1.txt" />
+    <Text Include="test2.txt" />
+    <Text Include="test3.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
