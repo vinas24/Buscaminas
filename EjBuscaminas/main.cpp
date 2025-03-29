@@ -2,6 +2,10 @@
 #include "juego.h"
 #include "listaUndo.h"
 
+/**
+* Autores: Álvaro Pérez Otero y Sergio Viñas González
+* Grupo: 24
+*/
 
 
 int main() {
