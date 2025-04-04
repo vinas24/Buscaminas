@@ -10,7 +10,7 @@ void inicializar_tablero(tTablero& t, int nfils, int ncols)
 {
 	inicializar(t);
 	t.nCols = ncols;
-	t.nFils = ncols;
+	t.nFils = nfils;
 	//Inicializamos las celdas
 	for (int i = 0; i < nfils; i++) {
 		for (int j = 0; j < ncols; j++) {
