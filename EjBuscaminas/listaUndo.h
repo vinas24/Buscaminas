@@ -12,4 +12,4 @@ typedef struct {
 
 void inicializar(tListaUndo& lu);
 void insertar_final(tListaUndo& lu, const tListaPosiciones& lp);
-tListaPosiciones ultimos_movimientos(const tListaUndo& lu);
+tListaPosiciones ultimos_movimientos(tListaUndo& lu);

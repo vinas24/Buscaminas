@@ -25,7 +25,7 @@ bool contiene_mina(const tJuego& j, int fila, int columna);
 bool es_visible(const tJuego& j, int fila, int columna);
 bool esta_marcada(const tJuego& j, int fila, int columna);
 bool esta_vacia(const tJuego& j, int fila, int columna);
-bool contiene_numero(const tJuego& j, int fila, int columna);
+bool contiene_numero(const tJuego &j, int fila, int columna);
 int dame_numero(const tJuego& j, int fila, int columna);
 bool esta_completo(const tJuego& j);
 bool mina_explotada(const tJuego& j);

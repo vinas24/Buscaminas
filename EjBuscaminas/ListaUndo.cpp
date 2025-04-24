@@ -20,6 +20,8 @@ void insertar_final(tListaUndo& lu, const tListaPosiciones& lp) {
 	}
 };
 
-tListaPosiciones ultimos_movimientos(const tListaUndo& lu) {
-	return lu.lista[lu.cont - 1];
+tListaPosiciones ultimos_movimientos(tListaUndo& lu) {
+	tListaPosiciones lp  = lu.lista[lu.cont -1];
+	lu.cont--;
+	return lp;
 }

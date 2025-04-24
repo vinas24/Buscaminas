@@ -50,7 +50,7 @@ bool esta_vacia(const tJuego& j, int fila, int columna) {
 	return esta_vacia(dame_celda(j.tablero, fila, columna));
 }
 
-bool contiene_numero(tJuego& j, int fila, int columna) {
+bool contiene_numero(const tJuego& j, int fila, int columna) {
 	return contiene_numero(dame_celda(j.tablero, fila, columna));
 }
 

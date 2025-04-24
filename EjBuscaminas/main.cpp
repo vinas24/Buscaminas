@@ -48,7 +48,6 @@ int main() {
 						//ocultamos las celdas de los ultimos mov
 						ocultar(j, dame_posY(lp, i), dame_posX(lp, i));
 					}
-					lu.cont--;
 				}
 			}
 			//Si introduce cualquer otra, realizamos jugada
@@ -57,7 +56,7 @@ int main() {
 				//AHORA GUARDAMOS PARA EL SIGUENTE UNDO
 				if(longitud(lp) != 0) insertar_final(lu, lp);
 				//reseteamos la lista de posiciones
-				lp.cont = 0;
+				inicializar(lp);
 
 			}
 

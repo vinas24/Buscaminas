@@ -6,7 +6,7 @@ const char CHAR_MINA = '*';     // Mina
 
 void colorNumero(int numero);
 void mostrarCoutSeparadorMat(int huecoCelda, const tJuego& j);
-void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos);
+void mostrarCeldaConsola(const tJuego &j, int fila, int columna, int huecos);
 
 istream& operator>>(istream& in, tJuego& juego) {
 	int fil, col, minas;
@@ -88,7 +88,7 @@ void mostrar_juego_consola(const tJuego& j) {
         std::cout << "\t" << LBLUE << std::setw(2) << f << RESET << '|';
         // mostrar la fila
         for (int c = 0; c < dame_num_columnas(j); c++) {
-            mostrarCeldaConsola(j.tablero, f, c, N_HUECOS);
+            mostrarCeldaConsola(j, f, c, N_HUECOS);
             std::cout << '|';
         }
         std::cout << std::endl;
@@ -120,24 +120,23 @@ void mostrarCoutSeparadorMat(int huecoCelda, const tJuego& j) {
     std::cout << std::endl;
 }
 
-void mostrarCeldaConsola(const tTablero& t, int fila, int columna, int huecos) {
-    tCelda c = dame_celda(t, fila, columna);
-    if (!es_visible(c) && !esta_marcada(c)) {
+void mostrarCeldaConsola(const tJuego &j, int fila, int columna, int huecos) {
+    if (!es_visible(j, fila, columna) && !esta_marcada(j, fila, columna)) {
         std::cout << BG_GRAY << GRAY << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
     }
     else {
         std::cout << BG_BLACK << BLACK;
-        if (!esta_marcada(c)) {
-            if (dame_estado(c) == MINA) {
+        if (!esta_marcada(j, fila, columna)) {
+            if (contiene_mina(j, fila, columna)) {
                 std::cout << RED << std::setw(huecos) << std::setfill(' ') << CHAR_MINA << RESET;
             }
             else {
-                if (dame_estado(c) == VACIA) {
+                if (esta_vacia(j,fila, columna)) {
                     std::cout << std::setw(huecos) << std::setfill(' ') << ' ' << RESET;
                 }
                 else {
-                    if (dame_estado(c) == NUMERO) {
-                        int numero = dame_numero(c);
+                    if (contiene_numero(j, fila, columna)) {
+                        int numero = dame_numero(j, fila, columna);
                         colorNumero(numero);
                         std::cout << std::setw(huecos) << std::setfill(' ') << numero << RESET;
                     }
