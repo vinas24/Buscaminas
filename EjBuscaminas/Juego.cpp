@@ -151,3 +151,29 @@ void aumentarNum(tJuego& j, int fil, int col) {
 		poner_celda(j.tablero, fil, col, c);
 	}
 }
+
+int calcula_nivel(const tJuego& juego) {
+	//Dificultad en base al porcentaje de minas/celtas ??
+	return  (dame_num_minas(juego) / (dame_num_filas(juego) * dame_num_columnas(juego))) * 100;
+}
+
+//Crea un tablero con las medidas especificadas
+//Las minas son asignadas de forma aleatoria
+tJuego crear_juego(int num_fils, int num_cols, int num_minas) {
+	tJuego j;
+	inicializar(j, num_fils, num_cols);
+	//inicializamos el tablero
+	inicializar_tablero(j.tablero, num_fils, num_cols);
+	//ponemos las minas
+	int minasPuestas = 0;
+	while (minasPuestas < num_minas) {
+		int fila = rand() % dame_num_filas(j);
+		int columna = rand() % dame_num_columnas(j);
+		//Si ya había una mina, repetimos
+		if (!contiene_mina(j, fila, columna)) {
+			poner_mina(j, fila, columna);
+			minasPuestas++;
+		}
+	}
+	return j;
+}

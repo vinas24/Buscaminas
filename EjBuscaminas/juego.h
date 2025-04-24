@@ -34,3 +34,6 @@ void poner_mina(tJuego& j, int fila, int columna);
 void marcar_desmarcar(tJuego& j, int fila, int columna);
 void ocultar(tJuego& j, int fila, int columna);
 void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp);
+
+int calcula_nivel(const tJuego& juego);
+tJuego crear_juego(int num_fils, int num_cols, int num_minas);
