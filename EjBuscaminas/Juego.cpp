@@ -1,5 +1,6 @@
 #include "juego.h"
 
+void descubrirRecursivo(tJuego& j, tListaPosiciones& lp, int fila, int columna);
 void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col);
 void aumentarNum(tJuego& j, int fil, int col);
 
@@ -111,34 +112,34 @@ void ocultar(tJuego& j, int fila, int columna) {
 }
 
 void juega(tJuego& j, int fila, int columna, tListaPosiciones& lp) {
-	descubrirCelda(j, lp, fila, columna);
-	j.num_jugadas++;
 	if (es_valida(j.tablero, fila, columna)) {
-		//Si la celda está vacia, mostar sus vecinas
-		if (esta_vacia(j, fila, columna)) {
-			//actualizar posiciones adyacentes
-			for (int k = 0; k < NUM_DIRECCIONES; k++) {
-				descubrirCelda(j, lp, fila + DIRECCIONES[k][0], columna + DIRECCIONES[k][1]);
-			}
-		}
-		
+		j.num_jugadas++;
+		descubrirRecursivo(j, lp, fila, columna);
 	}
-	
+}
+
+void descubrirRecursivo(tJuego& j, tListaPosiciones &lp, int fila, int columna) {
+	if (!es_valida(j.tablero, fila, columna) || es_visible(j, fila, columna) || esta_marcada(j, fila, columna)) return;
+
+	descubrirCelda(j, lp, fila, columna);
+
+	if (esta_vacia(j, fila, columna)) {
+		for (int k = 0; k < NUM_DIRECCIONES; k++) {
+			descubrirRecursivo(j, lp, fila + DIRECCIONES[k][0], columna + DIRECCIONES[k][1]);
+		}
+	}
 }
 
 void descubrirCelda(tJuego& j, tListaPosiciones& lp, int fil, int col) {
-	//comprueba valida, no visible y no marcada
-	if (es_valida(j.tablero, fil, col) && !esta_marcada(j, fil, col) && !es_visible(j, fil, col)) {
-			//la pone visible y actualiza lista pos
-			tCelda c = dame_celda(j.tablero, fil, col);
-			descubrir_celda(c);
-			poner_celda(j.tablero, fil, col, c);
-			//Añadimos a la lista de posiciones
-			insertar_final(lp, col, fil);
-			j.num_descubiertas++;
-			//Si hemos descubierto una mina, el flag de mina_explotada a true
-			if (es_mina(c)) j.mina_explotada = true;
-	}
+	//la pone visible y actualiza lista pos
+	tCelda c = dame_celda(j.tablero, fil, col);
+	descubrir_celda(c);
+	poner_celda(j.tablero, fil, col, c);
+	//Añadimos a la lista de posiciones
+	insertar_final(lp, col, fil);
+	j.num_descubiertas++;
+	//Si hemos descubierto una mina, el flag de mina_explotada a true
+	if (es_mina(c)) j.mina_explotada = true;
 }
 
 void aumentarNum(tJuego& j, int fil, int col) {
@@ -150,5 +151,3 @@ void aumentarNum(tJuego& j, int fil, int col) {
 		poner_celda(j.tablero, fil, col, c);
 	}
 }
-
-
