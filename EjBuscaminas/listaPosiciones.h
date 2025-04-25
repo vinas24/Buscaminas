@@ -1,6 +1,6 @@
 #pragma once
 
-const int MAX_LISTA = 100;
+const int MAX_LISTA = 10;
 
 typedef struct {
 	int posx;
@@ -8,8 +8,9 @@ typedef struct {
 } tPosicion;
 
 typedef struct {
-	tPosicion lista[MAX_LISTA];
+	tPosicion* lista;
 	int cont;
+	int capacidad;
 } tListaPosiciones;
 
 tPosicion newPos(int x, int y);
@@ -18,3 +19,5 @@ void insertar_final(tListaPosiciones& lp, int x, int y);
 int longitud(const tListaPosiciones& lp);
 int dame_posX(const tListaPosiciones& lp, int i);
 int dame_posY(const tListaPosiciones& lp, int i);
+
+void destruye(tListaPosiciones &lp);

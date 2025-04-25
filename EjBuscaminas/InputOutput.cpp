@@ -19,6 +19,18 @@ istream& operator>>(istream& in, tJuego& juego) {
     return in;
 }
 
+istream& operator>>(istream& in, tListaJuegos& lj) {
+    int nJuegos;
+    tJuego j;
+    in >> nJuegos;
+    inicializar(lj);
+    for (int i = 0; i < nJuegos; i++) {
+        in >> j;
+        insertar(lj, j);
+    }
+    return in;
+}
+
 void mostrar_cabecera() {
 	std::cout << "Buscaminas" << std::endl;
 	std::cout << "----------" << std::endl;
@@ -65,10 +77,37 @@ bool carga_juego(tJuego& j) {
 	return cargado;
 }
 
-bool cargar_juegos(tListaJuegos lj);
-void mostrar_juegos(tListaJuegos lj);
-bool guardar_juegos(tListaJuegos lj);
+bool cargar_juegos(tListaJuegos lj) {
+    bool cargado = false;
+    std::ifstream archivo;
+    std::string fichero;
+    //Pedir el nombre del fichero
+    std::cout << "Introduce el nombre del fichero: ";
+    std::cin >> fichero;
+    archivo.open(fichero);
+    if (archivo.is_open()) {
+        //Usamos el operador >> para cargar la lista de juegos
+        archivo >> lj;
+        archivo.close();
+        cargado = true;
+    }
+    return cargado;
+}
 
+void mostrar_juegos(tListaJuegos lj) {
+    std::cout << "Mostrando lista de juegos por orden de dificultad...\n";
+    for (int i = 0; i < lj.cont; i++) {
+        tPtrJuego j = lj.lista[i];
+        std::cout << "Juego" << i << ":\n";
+        std::cout << "\tDimension: " << j ->tablero.nCols << " x " << j ->tablero.nFils <<"\n";
+        std::cout << "\tMinas: " << j->num_minas << "\n";
+    }
+}
+
+bool guardar_juegos(tListaJuegos lj) {
+    //este ya lo hare en otro rato
+    return true;
+}
 
 void mostrar_juego_consola(const tJuego& j) {
 	if (!esta_terminado(j)) {

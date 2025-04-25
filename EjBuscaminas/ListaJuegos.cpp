@@ -1,5 +1,8 @@
 #include "listaJuegos.h"
 
+void redimensionar(tListaJuegos& lj);
+int busqueda(tListaJuegos& lj, const tJuego& j);
+
 //A rellenar
 void inicializar(tListaJuegos lista_juegos) {
 	lista_juegos.capacidad = MAX_JUEGOS;
