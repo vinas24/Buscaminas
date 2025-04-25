@@ -65,6 +65,11 @@ bool carga_juego(tJuego& j) {
 	return cargado;
 }
 
+bool cargar_juegos(tListaJuegos lj);
+void mostrar_juegos(tListaJuegos lj);
+bool guardar_juegos(tListaJuegos lj);
+
+
 void mostrar_juego_consola(const tJuego& j) {
 	if (!esta_terminado(j)) {
         mostrar_cabecera();

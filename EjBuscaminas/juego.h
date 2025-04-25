@@ -15,6 +15,8 @@ typedef struct {
 	int num_descubiertas;
 } tJuego;
 
+bool operator< (const tJuego& j1,const  tJuego& j2);
+
 void inicializar(tJuego& j);
 void inicializar(tJuego& j, int nfils, int ncols);
 int dame_num_jugadas(const tJuego& j);

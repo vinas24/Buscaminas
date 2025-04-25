@@ -16,6 +16,9 @@ void inicializar(tJuego& j, int nfils, int ncols) {
 	inicializar(j);
 	inicializar_tablero(j.tablero, nfils, ncols);
 }
+bool operator< (const tJuego& j1, const tJuego &j2) {
+	return calcula_nivel(j1) < calcula_nivel(j2);
+}
 
 int dame_num_jugadas(const tJuego& j) {
 	return j.num_jugadas;
