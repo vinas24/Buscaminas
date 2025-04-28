@@ -3,14 +3,13 @@
 void redimensionar(tListaJuegos& lj);
 int busqueda(tListaJuegos& lj, const tJuego& j);
 
-//A rellenar
-void inicializar(tListaJuegos lista_juegos) {
+void inicializar(tListaJuegos& lista_juegos) {
 	lista_juegos.capacidad = MAX_JUEGOS;
 	lista_juegos.cont = 0;
 	lista_juegos.lista = new tPtrJuego[lista_juegos.capacidad];
 }
 
-void destruye(tListaJuegos lista_juegos) {
+void destruye(tListaJuegos& lista_juegos) {
 	for (int i = 0; i < lista_juegos.cont; i++) {
 		delete lista_juegos.lista[i];
 	}
@@ -18,7 +17,7 @@ void destruye(tListaJuegos lista_juegos) {
 }
 
 //inserción ordenada por dificultad de los juegos
-void insertar(tListaJuegos lista_juegos, tJuego juego) {
+void insertar(tListaJuegos& lista_juegos, tJuego& juego) {
 	if (lista_juegos.cont == lista_juegos.capacidad) {
 		redimensionar(lista_juegos);
 	}
@@ -32,19 +31,19 @@ void insertar(tListaJuegos lista_juegos, tJuego juego) {
 	lista_juegos.cont++;
 }
 
-int numero_juegos(const tListaJuegos lista_juegos) {
+int numero_juegos(const tListaJuegos &lista_juegos) {
 	return lista_juegos.cont;
 }
-bool es_vacia(const tListaJuegos lista_juegos) {
+bool es_vacia(const tListaJuegos &lista_juegos) {
 	return lista_juegos.cont == 0;
 }
 
-tJuego dame_juego(tListaJuegos lista_juegos, int pos) {
+tJuego dame_juego(tListaJuegos &lista_juegos, int pos) {
 	return *lista_juegos.lista[pos];
 }
 
 //suponemos que la pos está dentro del array
-void eliminar(tListaJuegos lista_juegos, int pos) {
+void eliminar(tListaJuegos& lista_juegos, int pos) {
 	delete lista_juegos.lista[pos];
 	//movemos todos hacia la izq para rellenar el hueco
 	//creado por la eliminación

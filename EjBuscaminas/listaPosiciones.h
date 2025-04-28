@@ -7,8 +7,10 @@ typedef struct {
 	int posy;
 } tPosicion;
 
+typedef tPosicion* tPtrPos;
+
 typedef struct {
-	tPosicion* lista;
+	tPtrPos* lista;
 	int cont;
 	int capacidad;
 } tListaPosiciones;

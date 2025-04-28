@@ -16,6 +16,6 @@ void mostrar_juego_consola(const tJuego& j);
 bool carga_juego(tJuego& j);
 
 //metodos de la versión 2
-bool cargar_juegos(tListaJuegos lj);
-void mostrar_juegos(tListaJuegos lj);
-bool guardar_juegos(tListaJuegos lj);
+bool cargar_juegos(tListaJuegos& lj);
+void mostrar_juegos(tListaJuegos& lj);
+bool guardar_juegos(tListaJuegos& lj);
