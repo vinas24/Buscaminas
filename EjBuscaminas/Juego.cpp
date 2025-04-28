@@ -157,7 +157,7 @@ void aumentarNum(tJuego& j, int fil, int col) {
 
 int calcula_nivel(const tJuego& juego) {
 	//Dificultad en base al porcentaje de minas/celtas ??
-	return  (dame_num_minas(juego) / (dame_num_filas(juego) * dame_num_columnas(juego))) * 100;
+	return  (double) dame_num_minas(juego) * 100 / (dame_num_filas(juego) * dame_num_columnas(juego));
 }
 
 //Crea un tablero con las medidas especificadas

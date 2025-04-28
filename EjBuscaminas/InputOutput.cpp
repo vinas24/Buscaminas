@@ -31,6 +31,22 @@ istream& operator>>(istream& in, tListaJuegos& lj) {
     return in;
 }
 
+//Este lo uso para guardar el juego en un fichero
+std::ostream& operator<<(std::ostream& out, const tListaJuegos& lj) {
+	out << lj.cont << std::endl;
+    for (int i = 0; i < lj.cont; i++) {
+        out << lj.lista[i]->tablero.nFils << " " << lj.lista[i]->tablero.nCols << std::endl << lj.lista[i]->num_minas << std::endl;
+        //ahora deberiamos ir celda a celda del tablero y escribir las minas
+        for (int f = 0; f < lj.lista[i]->tablero.nFils; f++) {
+            for (int c = 0; c < lj.lista[i]->tablero.nCols; c++) {
+                if (contiene_mina(*lj.lista[i], f, c)) {
+                    out << f << " " << c << std::endl;
+                }
+            }
+        }
+    }
+	return out;
+}
 void mostrar_cabecera() {
 	std::cout << "Buscaminas" << std::endl;
 	std::cout << "----------" << std::endl;
@@ -45,15 +61,15 @@ void mostrar_resultado(tJuego& j) {
 	if (esta_terminado(j)) {
         //si alguna mina esta descubierta
 		if (mina_explotada(j)) {
-			std::cout << "Has explotado\n";
+			std::cout << RED << "Has explotado\n" << RESET;
 		}
         //si todas las casillas no minas están descubiertas
 		else if (esta_completo(j)) {
-			std::cout << "Has ganado\n";
+			std::cout << GREEN << "Has ganado\n"<< RESET;
 		}
 	}
 	else {
-		std::cout << "Has abandonado\n";
+		std::cout << YELLOW << "Has abandonado\n" << RESET;
 	}
 }
 
@@ -99,6 +115,7 @@ void mostrar_juegos(tListaJuegos& lj) {
     for (int i = 0; i < lj.cont; i++) {
         tPtrJuego j = lj.lista[i];
         std::cout << "Juego" << i << ":\n";
+		std::cout << "\tDificultad: " << calcula_nivel(*j) << "\n";
         std::cout << "\tDimension: " << j ->tablero.nCols << " x " << j ->tablero.nFils <<"\n";
         std::cout << "\tMinas: " << j->num_minas << "\n";
     }
@@ -106,8 +123,20 @@ void mostrar_juegos(tListaJuegos& lj) {
 }
 
 bool guardar_juegos(tListaJuegos& lj) {
-    //este ya lo hare en otro rato
-    return true;
+	bool guardado = false;
+	std::ofstream archivo;
+	std::string fichero;
+	//Pedir el nombre del fichero
+	std::cout << "Introduce el nombre del fichero: ";
+	std::cin >> fichero;
+	archivo.open(fichero);
+	if (archivo.is_open()) {
+		//Usamos el operador >> para cargar la lista de juegos
+		archivo << lj;
+		archivo.close();
+		guardado = true;
+	}
+	return guardado;
 }
 
 void mostrar_juego_consola(const tJuego& j) {

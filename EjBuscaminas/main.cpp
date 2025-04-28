@@ -26,6 +26,7 @@ int main() {
 		//Esto debería hacerse a través de inputOutput, pero no podemos crear funciones publicas sooo...
 		std::cout << "El fichero no existe, se creara un nuevo juego aleatorio\n";
 		j = crearNuevoJuego();
+		insertar(lj, j);
 	}
 	else {
 		std::cout << "Deseas juegar a un juego nuevo (1), o a uno existente (2).\nIntroduce la opcion seleccionada:\n";
@@ -38,6 +39,7 @@ int main() {
 		} while (opt != 1 && opt != 2);
 		if (opt == 1) {
 			j = crearNuevoJuego();
+			insertar(lj, j);
 		}
 		else {
 			mostrar_juegos(lj);
@@ -86,7 +88,7 @@ int main() {
 			if(longitud(lp) != 0) insertar_final(lu, lp);
 			std::cout << longitud(lp) << "  " << lu.cont << std::endl;
 			//reseteamos la lista de posiciones
-			//ESTO NO ME GUSTA MUCHO
+			destruye(lp);
 			inicializar(lp);
 		}
 	} while (!abandonar && !esta_terminado(j));
@@ -94,14 +96,28 @@ int main() {
 	// el tablero una última vez
 	mostrar_resultado(j);
 	mostrar_juego_consola(j);
+	//pedimos confirmacion para guardar
+	//REVISAR ESTO Q NO ME FIO
+	if (!abandonar) {
+		std::cout << "¿Quieres guardar el juego? (1/0)\n";
+		int opt;
+		std::cin >> opt;
+		if (opt == 1) {
+			if (!guardar_juegos(lj)) {
+				std::cout << "No se ha podido guardar el juego.\n";
+			}
+			else {
+				std::cout << "Juego guardado correctamente.\n";
+			}
+		}
+	}
 	//limpiamos el Heap
 	destruye(lj);
 	destruye(lp);
 	return 0;
 }
 
-//Falta procurar que sean numeros
-//validar el input
+//Metodo para pedir fils, cols y minas para juegos aleatorios
 tJuego crearNuevoJuego() {
 	int nFila, nColumna, nMinas;
 	//Pedimos las filas
@@ -131,7 +147,6 @@ tJuego crearNuevoJuego() {
 
 	return crear_juego(nFila, nColumna, nMinas);
 }
-
 
 //En caso de que se introduzca un char no valido
 void limpiarCin() {
