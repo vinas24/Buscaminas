@@ -8,6 +8,7 @@
 */
 
 tJuego crearNuevoJuego();
+void limpiarCin();
 
 int main() {
 	tJuego j;
@@ -31,8 +32,9 @@ int main() {
 		int opt;
 		do {
 			std::cin >> opt;
-			if (opt != 1 && opt != 2) 
+			if (opt != 1 && opt != 2) {
 				std::cout << "La opcion elegida no existe...\nElige entre las opciones 1 y 2.\n";
+			}
 		} while (opt != 1 && opt != 2);
 		if (opt == 1) {
 			j = crearNuevoJuego();
@@ -41,8 +43,9 @@ int main() {
 			mostrar_juegos(lj);
 			do {
 				std::cin >> opt;
-				if (opt < 0 || opt >= lj.cont)
+				if (opt < 0 || opt >= lj.cont) {
 					std::cout << "El juego seleccionado no existe...\nVuelve a seleccionar partida...\n";
+				}
 			} while (opt < 0 || opt >= lj.cont);
 			j = dame_juego(lj, opt);
 
@@ -98,9 +101,43 @@ int main() {
 }
 
 //Falta procurar que sean numeros
+//validar el input
 tJuego crearNuevoJuego() {
 	int nFila, nColumna, nMinas;
-	std::cout << "Introduce las filas, columnas y num de minas que tendra:\n";
-	std::cin >> nFila >> nColumna >> nMinas;
+	//Pedimos las filas
+	std::cout << "Introduce las filas:\n";
+	std::cin >> nFila;
+	while (nFila < 1) {
+		limpiarCin();
+		std::cout << "El numero de filas no es posible.\nVuelve a introducir el numero de filas:\n";
+		std::cin >> nFila;
+	}
+	//Pedimos las columnas
+	std::cout << "Introduce las columnas:\n";
+	std::cin >> nColumna;
+	while (nColumna < 1) {
+		limpiarCin();
+		std::cout << "El numero de columnas no es posible.\nVuelve a introducir el numero de columnas:\n";
+		std::cin >> nColumna;
+	}
+	//Pedimos las minas
+	std::cout << "Introduce el numero de minas:\n";
+	std::cin >> nMinas;
+	while (nMinas < 1 || nMinas > nFila * nColumna) {
+		limpiarCin();
+		std::cout << "El numero de minas es demasiado grande.\nVuelve a introducir el numero de minas:\n";
+		std::cin >> nMinas;
+	}
+
 	return crear_juego(nFila, nColumna, nMinas);
+}
+
+
+//En caso de que se introduzca un char no valido
+void limpiarCin() {
+	if (!std::cin) {
+		std::cin.clear();
+		std::string ignore;
+		std::cin >> ignore;
+	}
 }
