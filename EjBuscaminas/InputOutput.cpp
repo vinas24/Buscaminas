@@ -31,21 +31,22 @@ istream& operator>>(istream& in, tListaJuegos& lj) {
 }
 
 //Este lo uso para guardar el juego en un fichero
-std::ostream& operator<<(std::ostream& out, const tListaJuegos& lj) {
-	out << lj.cont << std::endl;
-    for (int i = 0; i < lj.cont; i++) {
-        out << lj.lista[i]->tablero.nFils << " " << lj.lista[i]->tablero.nCols << std::endl << lj.lista[i]->num_minas << std::endl;
+std::ostream& operator<<(std::ostream& out, tListaJuegos& lj) {
+    out << numero_juegos(lj) << std::endl;
+    for (int i = 0; i < numero_juegos(lj); i++) {
+        out << dame_num_filas(*dame_juego(lj, i)) << " " << dame_num_columnas(*dame_juego(lj, i)) << std::endl << dame_num_minas(*dame_juego(lj, i)) << std::endl;
         //ahora deberiamos ir celda a celda del tablero y escribir las minas
-        for (int f = 0; f < lj.lista[i]->tablero.nFils; f++) {
-            for (int c = 0; c < lj.lista[i]->tablero.nCols; c++) {
-                if (contiene_mina(*lj.lista[i], f, c)) {
+        for (int f = 0; f < dame_num_filas(*dame_juego(lj, i)); f++) {
+            for (int c = 0; c < dame_num_columnas(*dame_juego(lj, i)); c++) {
+                if (contiene_mina(*dame_juego(lj, i), f, c)) {
                     out << f << " " << c << std::endl;
                 }
             }
         }
     }
-	return out;
+    return out;
 }
+
 void mostrar_cabecera() {
 	std::cout << "Buscaminas" << std::endl;
 	std::cout << "----------" << std::endl;
