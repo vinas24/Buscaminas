@@ -1,4 +1,5 @@
 #pragma once
+#include "memoryLeaks.h"
 
 const int MAX_LISTA = 10;
 
@@ -7,10 +8,8 @@ typedef struct {
 	int posy;
 } tPosicion;
 
-typedef tPosicion* tPtrPos;
-
 typedef struct {
-	tPtrPos* lista;
+	tPosicion* lista;
 	int cont;
 	int capacidad;
 } tListaPosiciones;

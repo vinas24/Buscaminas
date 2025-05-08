@@ -2,6 +2,7 @@
 #include "juego.h"
 #include "listaUndo.h"
 
+
 /**
 * Autores: Álvaro Pérez Otero y Sergio Viñas González
 * Grupo: 24
@@ -11,6 +12,8 @@ tJuego crearNuevoJuego();
 void limpiarCin();
 
 int main() {
+	//Para memory leaks
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	tJuego j;
 	tListaPosiciones lp;
 	tListaUndo lu;
@@ -45,12 +48,11 @@ int main() {
 			mostrar_juegos(lj);
 			do {
 				std::cin >> opt;
-				if (opt < 0 || opt >= lj.cont) {
+				if (opt < 0 || opt >= numero_juegos(lj)) {
 					std::cout << "El juego seleccionado no existe...\nVuelve a seleccionar partida...\n";
 				}
-			} while (opt < 0 || opt >= lj.cont);
-			j = dame_juego(lj, opt);
-
+			} while (opt < 0 || opt >= numero_juegos(lj));
+			j = *dame_juego(lj, opt);
 		}
 	}
 	do {
@@ -73,6 +75,7 @@ int main() {
 			else {
 				//LOS MARCAR NO HACEN UNDO
 				//guardamos los ultimos mov en lp
+				destruye(lp);
 				lp = ultimos_movimientos(lu);
 				for (int i = 0; i < longitud(lp); i++) {
 					//ocultamos las celdas de los ultimos mov
@@ -84,11 +87,9 @@ int main() {
 		else {
 			juega(j, fila, columna, lp);
 			//AHORA GUARDAMOS PARA EL SIGUENTE UNDO
-				
-			if(longitud(lp) != 0) insertar_final(lu, lp);
-			std::cout << longitud(lp) << "  " << lu.cont << std::endl;
+
+			if (longitud(lp) != 0) insertar_final(lu, lp);
 			//reseteamos la lista de posiciones
-			destruye(lp);
 			inicializar(lp);
 		}
 	} while (!abandonar && !esta_terminado(j));
@@ -113,6 +114,7 @@ int main() {
 	}
 	//limpiamos el Heap
 	destruye(lj);
+	destruye(lu);
 	destruye(lp);
 	return 0;
 }

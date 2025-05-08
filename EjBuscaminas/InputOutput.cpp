@@ -23,7 +23,6 @@ istream& operator>>(istream& in, tListaJuegos& lj) {
     int nJuegos;
     tJuego j;
     in >> nJuegos;
-    inicializar(lj);
     for (int i = 0; i < nJuegos; i++) {
         in >> j;
         insertar(lj, j);
@@ -112,12 +111,12 @@ bool cargar_juegos(tListaJuegos& lj) {
 
 void mostrar_juegos(tListaJuegos& lj) {
     std::cout << "Mostrando lista de juegos por orden de dificultad...\n";
-    for (int i = 0; i < lj.cont; i++) {
-        tPtrJuego j = lj.lista[i];
+    for (int i = 0; i < numero_juegos(lj); i++) {
+		tJuego j = *dame_juego(lj, i);
         std::cout << "Juego" << i << ":\n";
-		std::cout << "\tDificultad: " << calcula_nivel(*j) << "\n";
-        std::cout << "\tDimension: " << j ->tablero.nCols << " x " << j ->tablero.nFils <<"\n";
-        std::cout << "\tMinas: " << j->num_minas << "\n";
+		std::cout << "\tDificultad: " << calcula_nivel(j) << "\n";
+        std::cout << "\tDimension: " << dame_num_columnas(j) << " x " << dame_num_filas(j) <<"\n";
+        std::cout << "\tMinas: " << dame_num_minas(j) << "\n";
     }
     std::cout << "Seleccione una partida ...\n";
 }

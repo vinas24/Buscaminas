@@ -13,7 +13,9 @@ void destruye(tListaJuegos& lista_juegos) {
 	for (int i = 0; i < lista_juegos.cont; i++) {
 		delete lista_juegos.lista[i];
 	}
-	delete lista_juegos.lista;
+	delete[] lista_juegos.lista;
+	lista_juegos.lista = nullptr;
+	lista_juegos.cont = 0;
 }
 
 //inserción ordenada por dificultad de los juegos
@@ -38,8 +40,8 @@ bool es_vacia(const tListaJuegos &lista_juegos) {
 	return lista_juegos.cont == 0;
 }
 
-tJuego dame_juego(tListaJuegos &lista_juegos, int pos) {
-	return *lista_juegos.lista[pos];
+tJuego* dame_juego(tListaJuegos &lista_juegos, int pos) {
+	return lista_juegos.lista[pos];
 }
 
 //suponemos que la pos está dentro del array
@@ -61,7 +63,7 @@ void redimensionar(tListaJuegos& lj) {
 	for (int i = 0; i < lj.cont; i++) {
 		newLista[i] = lj.lista[i];
 	}
-	delete lj.lista;
+	delete[] lj.lista;
 	lj.lista = newLista;
 }
 

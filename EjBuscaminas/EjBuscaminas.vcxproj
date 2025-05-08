@@ -26,6 +26,7 @@
     <ClInclude Include="listaJuegos.h" />
     <ClInclude Include="listaPosiciones.h" />
     <ClInclude Include="listaUndo.h" />
+    <ClInclude Include="memoryLeaks.h" />
     <ClInclude Include="tablero.h" />
   </ItemGroup>
   <ItemGroup>

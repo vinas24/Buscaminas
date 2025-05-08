@@ -33,3 +33,11 @@ void eliminar_ultimo(tListaUndo& lu) {
 	delete lu.lista[lu.cont - 1];
 	lu.cont--;
 }
+
+void destruye(tListaUndo& lu) {
+	for (int i = 0; i < lu.cont; i++) {
+		destruye(*lu.lista[i]);
+		delete lu.lista[i];
+		lu.lista[i] = nullptr;
+	}
+}

@@ -39,6 +39,9 @@
     <ClInclude Include="listaJuegos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="memoryLeaks.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="InputOutput.cpp">
