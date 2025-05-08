@@ -18,7 +18,7 @@ int main() {
 	tListaPosiciones lp;
 	tListaUndo lu;
 	tListaJuegos lj;
-	int fila, columna;
+	int fila, columna, nJuego = 0;
 	//Se inicializan las listas, con sus contadores a 0
 	inicializar(lp);
 	inicializar(lu);
@@ -47,12 +47,12 @@ int main() {
 		else {
 			mostrar_juegos(lj);
 			do {
-				std::cin >> opt;
-				if (opt < 0 || opt >= numero_juegos(lj)) {
+				std::cin >> nJuego;
+				if (nJuego< 0 || nJuego >= numero_juegos(lj)) {
 					std::cout << "El juego seleccionado no existe...\nVuelve a seleccionar partida...\n";
 				}
-			} while (opt < 0 || opt >= numero_juegos(lj));
-			j = *dame_juego(lj, opt);
+			} while (nJuego < 0 || nJuego >= numero_juegos(lj));
+			j = *dame_juego(lj, nJuego);
 		}
 	}
 	do {
@@ -97,21 +97,24 @@ int main() {
 	// el tablero una última vez
 	mostrar_resultado(j);
 	mostrar_juego_consola(j);
+
 	//pedimos confirmacion para guardar
 	//REVISAR ESTO Q NO ME FIO
-	if (!abandonar) {
-		std::cout << "¿Quieres guardar el juego? (1/0)\n";
-		int opt;
-		std::cin >> opt;
-		if (opt == 1) {
-			if (!guardar_juegos(lj)) {
-				std::cout << "No se ha podido guardar el juego.\n";
-			}
-			else {
-				std::cout << "Juego guardado correctamente.\n";
-			}
+	std::cout << "¿Quieres guardar el juego? (1/0)\n";
+	int opt;
+	std::cin >> opt;
+	if (opt == 1) {
+		if (!abandonar) {
+			eliminar(lj,nJuego);
+		}
+		if (!guardar_juegos(lj)) {
+			std::cout << "No se ha podido guardar el juego.\n";
+		}
+		else {
+			std::cout << "Juego guardado correctamente.\n";
 		}
 	}
+	
 	//limpiamos el Heap
 	destruye(lj);
 	destruye(lu);
